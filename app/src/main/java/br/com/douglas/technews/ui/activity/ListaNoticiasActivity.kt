@@ -1,16 +1,19 @@
 package br.com.douglas.technews.ui.activity
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import br.com.douglas.technews.R
-
 import br.com.douglas.technews.database.AppDatabase
 import br.com.douglas.technews.model.Noticia
 import br.com.douglas.technews.repository.NoticiaRepository
 import br.com.douglas.technews.ui.activity.extensions.mostraErro
 import br.com.douglas.technews.ui.recyclerview.ListaNoticiasAdapter
+import br.com.douglas.technews.ui.viewmodel.ListaNoticiasViewModel
+import br.com.douglas.technews.ui.viewmodel.factory.ListaNoticiaViewModelFactory
 import kotlinx.android.synthetic.main.activity_lista_noticias.*
 
 private const val TITULO_APPBAR = "Notícias"
@@ -18,11 +21,15 @@ private const val MENSAGEM_FALHA_CARREGAR_NOTICIAS = "Não foi possível carrega
 
 class ListaNoticiasActivity : AppCompatActivity() {
 
-    private val repository by lazy {
-        NoticiaRepository(AppDatabase.getInstance(this).noticiaDAO)
-    }
     private val adapter by lazy {
         ListaNoticiasAdapter(context = this)
+    }
+
+    private val viewModel by lazy {
+        val repository = NoticiaRepository(AppDatabase.getInstance(this).noticiaDAO)
+        val factory = ListaNoticiaViewModelFactory(repository)
+        val viewModelProvider = ViewModelProvider(this, factory)
+        viewModelProvider[ListaNoticiasViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +63,7 @@ class ListaNoticiasActivity : AppCompatActivity() {
     }
 
     private fun buscaNoticias() {
-        repository.buscaTodos(
+        viewModel.buscaTodos(
             quandoSucesso = {
                 adapter.atualiza(it)
             }, quandoFalha = {
