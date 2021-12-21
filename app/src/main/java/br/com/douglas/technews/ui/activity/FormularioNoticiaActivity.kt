@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import br.com.douglas.technews.R
 import br.com.douglas.technews.database.AppDatabase
 import br.com.douglas.technews.model.Noticia
 import br.com.douglas.technews.repository.NoticiaRepository
 import br.com.douglas.technews.ui.activity.extensions.mostraErro
+import br.com.douglas.technews.ui.viewmodel.FormularioNoticiaViewModel
+import br.com.douglas.technews.ui.viewmodel.factory.FormularioNoticiaViewModelFactory
 
 import kotlinx.android.synthetic.main.activity_formulario_noticia.*
 
@@ -23,6 +27,12 @@ class FormularioNoticiaActivity : AppCompatActivity() {
     }
     private val repository by lazy {
         NoticiaRepository(AppDatabase.getInstance(this).noticiaDAO)
+    }
+
+    private val viewModel by lazy {
+        val factory = FormularioNoticiaViewModelFactory(repository)
+        val viewModelProvider = ViewModelProvider(this, factory)
+        viewModelProvider[FormularioNoticiaViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,11 +90,18 @@ class FormularioNoticiaActivity : AppCompatActivity() {
                 quandoFalha = falha
             )
         } else {
-            repository.salva(
-                noticia,
-                quandoSucesso = sucesso,
-                quandoFalha = falha
-            )
+            viewModel.salva(noticia).observe(this, Observer {
+                if (it.erro == null) {
+                    finish()
+                } else {
+                    mostraErro(MENSAGEM_ERRO_SALVAR)
+                }
+            })
+//            repository.salva(
+//                noticia,
+//                quandoSucesso = sucesso,
+//                quandoFalha = falha
+//            )
         }
     }
 
