@@ -1,5 +1,7 @@
 package br.com.douglas.technews.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import br.com.douglas.technews.asynctask.BaseAsyncTask
 import br.com.douglas.technews.database.dao.NoticiaDAO
 import br.com.douglas.technews.model.Noticia
@@ -10,12 +12,25 @@ class NoticiaRepository(
     private val webclient: NoticiaWebClient = NoticiaWebClient()
 ) {
 
-    fun buscaTodos(
-        quandoSucesso: (List<Noticia>) -> Unit,
-        quandoFalha: (erro: String?) -> Unit
-    ) {
-        buscaInterno(quandoSucesso)
-        buscaNaApi(quandoSucesso, quandoFalha)
+    private val noticiasEncontradasLiveData = MutableLiveData<Resource<List<Noticia>?>>()
+
+    fun buscaTodos(): LiveData<Resource<List<Noticia>?>> {
+        buscaInterno(quandoSucesso = {
+            noticiasEncontradasLiveData.value = Resource(dado = it)
+        })
+        buscaNaApi(quandoSucesso = {
+            noticiasEncontradasLiveData.value = Resource(dado = it, null)
+        }, quandoFalha = {
+            val resourceAtual = noticiasEncontradasLiveData.value
+            val resourceCriado: Resource<List<Noticia>?> =
+                if (resourceAtual != null) {
+                    Resource(dado = resourceAtual.dado, erro = it)
+                } else {
+                    Resource(dado = null, erro = it)
+                }
+            noticiasEncontradasLiveData.value = resourceCriado
+        })
+        return noticiasEncontradasLiveData
     }
 
     fun salva(
