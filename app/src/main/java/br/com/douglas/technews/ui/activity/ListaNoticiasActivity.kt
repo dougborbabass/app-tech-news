@@ -70,11 +70,6 @@ class ListaNoticiasActivity : AppCompatActivity() {
                 mostraErro(MENSAGEM_FALHA_CARREGAR_NOTICIAS)
             }
         })
-//        quandoSucesso = {
-//            adapter.atualiza(it)
-//        }, quandoFalha = {
-//            mostraErro(MENSAGEM_FALHA_CARREGAR_NOTICIAS)
-//        }
     }
 
     private fun abreFormularioModoCriacao() {
