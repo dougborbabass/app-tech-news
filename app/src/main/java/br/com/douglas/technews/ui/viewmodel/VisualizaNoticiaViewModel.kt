@@ -7,13 +7,11 @@ import br.com.douglas.technews.repository.NoticiaRepository
 import br.com.douglas.technews.repository.Resource
 
 class VisualizaNoticiaViewModel(
-    private val id: Long,
+    id: Long,
     private val repository: NoticiaRepository
 ) : ViewModel() {
 
-    private val noticiaEncontrada = buscaPorId()
-
-    fun buscaPorId() = repository.buscaPorId(id)
+    val noticiaEncontrada = repository.buscaPorId(id)
 
     fun remove(): LiveData<Resource<Void?>> {
         return noticiaEncontrada.value?.run {
