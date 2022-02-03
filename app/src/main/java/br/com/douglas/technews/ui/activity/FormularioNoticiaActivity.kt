@@ -5,16 +5,14 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import br.com.douglas.technews.R
-import br.com.douglas.technews.database.AppDatabase
 import br.com.douglas.technews.model.Noticia
 import br.com.douglas.technews.repository.NoticiaRepository
 import br.com.douglas.technews.ui.activity.extensions.mostraErro
 import br.com.douglas.technews.ui.viewmodel.FormularioNoticiaViewModel
-import br.com.douglas.technews.ui.viewmodel.factory.FormularioNoticiaViewModelFactory
-
 import kotlinx.android.synthetic.main.activity_formulario_noticia.*
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val TITULO_APPBAR_EDICAO = "Editando notícia"
 private const val TITULO_APPBAR_CRIACAO = "Criando notícia"
@@ -26,12 +24,7 @@ class FormularioNoticiaActivity : AppCompatActivity() {
         intent.getLongExtra(NOTICIA_ID_CHAVE, 0)
     }
 
-    private val viewModel by lazy {
-        val repository = NoticiaRepository(AppDatabase.getInstance(this).noticiaDAO)
-        val factory = FormularioNoticiaViewModelFactory(repository)
-        val viewModelProvider = ViewModelProvider(this, factory)
-        viewModelProvider[FormularioNoticiaViewModel::class.java]
-    }
+    private val viewModel: FormularioNoticiaViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
