@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.douglas.technews.R
+import br.com.douglas.technews.model.Noticia
 import br.com.douglas.technews.ui.fragment.extensions.mostraErro
 import br.com.douglas.technews.ui.recyclerview.ListaNoticiasAdapter
 import br.com.douglas.technews.ui.viewmodel.ListaNoticiasViewModel
@@ -26,6 +27,8 @@ class ListaNoticiaFragment : Fragment() {
     }
 
     private val viewModel: ListaNoticiasViewModel by viewModel()
+    var quandoFABsalvaNoticiaClicado: () -> Unit = {}
+    var quandoNoticiaSelecionada: (noticia: Noticia) -> Unit = {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +55,7 @@ class ListaNoticiaFragment : Fragment() {
 
     private fun configuraFabAdicionaNoticia() {
         lista_noticias_fab_salva_noticia.setOnClickListener {
-//            abreFormularioModoCriacao()
+            quandoFABsalvaNoticiaClicado
         }
     }
 
@@ -64,7 +67,7 @@ class ListaNoticiaFragment : Fragment() {
     }
 
     private fun configuraAdapter() {
-//        adapter.quandoItemClicado = this::abreVisualizadorNoticia
+        adapter.quandoItemClicado = quandoNoticiaSelecionada
     }
 
     private fun buscaNoticias() {

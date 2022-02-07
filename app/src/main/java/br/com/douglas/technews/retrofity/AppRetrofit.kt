@@ -6,7 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "http://603b-2804-14d-4c89-89c4-d46b-1955-f6b1-a9e1.ngrok.io"
+private const val BASE_URL = "http://9ed4-189-6-249-176.ngrok.io"
 
 class AppRetrofit {
 
