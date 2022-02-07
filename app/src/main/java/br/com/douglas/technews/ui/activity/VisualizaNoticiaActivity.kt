@@ -32,6 +32,16 @@ class VisualizaNoticiaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_visualiza_noticia)
         title = TITULO_APPBAR
+        val beginTransaction = supportFragmentManager.beginTransaction()
+        val fragment = VisualizaNoticiaFragment()
+        val bundle = Bundle()
+        bundle.putLong(NOTICIA_ID_CHAVE, noticiaId)
+        fragment.arguments = bundle
+        beginTransaction.add(
+            R.id.activity_visualiza_noticia_container,
+            fragment
+        )
+        beginTransaction.commit()
     }
 
     private fun abreFormularioEdicao() {
