@@ -15,7 +15,6 @@
         android:theme="@style/Theme.AppCompat"
         android:name=".AppApplication">
         <activity android:name=".ui.activity.FormularioNoticiaActivity" />
-        <activity android:name=".ui.activity.VisualizaNoticiaActivity" />
         <activity android:name=".ui.activity.ListaNoticiasActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
