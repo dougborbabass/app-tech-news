@@ -19,7 +19,7 @@ class ListaNoticiasActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             transacaoFragment {
-                add(R.id.activity_noticias_container, ListaNoticiasFragment())
+                add(R.id.activity_noticias_container_primario, ListaNoticiasFragment())
             }
         }
     }
@@ -63,7 +63,7 @@ class ListaNoticiasActivity : AppCompatActivity() {
 
         transacaoFragment {
             addToBackStack(null)
-            replace(R.id.activity_noticias_container, fragment)
+            replace(R.id.activity_noticias_container_primario, fragment)
         }
     }
 
