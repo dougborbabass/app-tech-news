@@ -10,9 +10,19 @@ import br.com.douglas.technews.ui.activity.extensions.transacaoFragment
 import br.com.douglas.technews.ui.fragment.ListaNoticiasFragment
 import br.com.douglas.technews.ui.fragment.VisualizaNoticiaFragment
 
-private const val TITULO_APPBAR = "Notícias"
 
 class ListaNoticiasActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_noticias)
+
+        if (savedInstanceState == null) {
+            transacaoFragment {
+                add(R.id.activity_noticias_container, ListaNoticiasFragment())
+            }
+        }
+    }
 
     init {
         val fm = supportFragmentManager
@@ -40,16 +50,6 @@ class ListaNoticiasActivity : AppCompatActivity() {
         fragment.quandoFABsalvaNoticiaClicado = this::abreFormularioModoCriacao
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_noticias)
-        title = TITULO_APPBAR
-
-        transacaoFragment {
-            add(R.id.activity_noticias_container, ListaNoticiasFragment())
-        }
-    }
-
     fun abreFormularioModoCriacao() {
         val intent = Intent(this, FormularioNoticiaActivity::class.java)
         startActivity(intent)
@@ -62,6 +62,7 @@ class ListaNoticiasActivity : AppCompatActivity() {
         fragment.arguments = bundle
 
         transacaoFragment {
+            addToBackStack(null)
             replace(R.id.activity_noticias_container, fragment)
         }
     }
