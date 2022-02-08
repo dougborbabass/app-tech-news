@@ -99,12 +99,12 @@ class ListaNoticiasActivity : AppCompatActivity() {
         fragment.quandoFABsalvaNoticiaClicado = this::abreFormularioModoCriacao
     }
 
-    fun abreFormularioModoCriacao() {
+    private fun abreFormularioModoCriacao() {
         val intent = Intent(this, FormularioNoticiaActivity::class.java)
         startActivity(intent)
     }
 
-    fun abreVisualizadorNoticia(noticia: Noticia) {
+    private fun abreVisualizadorNoticia(noticia: Noticia) {
         val fragment = VisualizaNoticiaFragment()
         val bundle = Bundle()
         bundle.putLong(NOTICIA_ID_CHAVE, noticia.id)

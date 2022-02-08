@@ -57,7 +57,7 @@ class ListaNoticiasFragment : Fragment() {
 
     private fun configuraFabAdicionaNoticia() {
         lista_noticias_fab_salva_noticia.setOnClickListener {
-            quandoFABsalvaNoticiaClicado
+            quandoFABsalvaNoticiaClicado()
         }
     }
 
